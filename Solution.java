@@ -7,16 +7,20 @@ public class Solution {
     static ArrayList<Point>[] limitLists;
 
 
-    static public int trapRainWater(int[][] heightMap) {
+    public int trapRainWater(int[][] heightMap) {
         Solution.heightMap = heightMap;
         iM = heightMap.length;
         jM = heightMap[0].length;
         int[][] mapping = new int[iM][];
         ArrayList<Point>[] limitLists = new ArrayList[20000];
         Solution.limitLists = limitLists;
+        int max = 0;
         for (int i = 0; i < iM; i++) {
             int[] row = new int[jM];
             for (int j = 0; j < jM; j++) {
+                if (heightMap[i][j] > max) {
+                    max = heightMap[i][j];
+                }
                 if (i == 0 || j == 0 || i == iM - 1 || j == jM - 1) {
                     Point point = new Point();
                     point.x = i;
@@ -37,7 +41,7 @@ public class Solution {
 
         Solution.mapping = mapping;
         int yield = 0;
-        for (int i = 0; i < limitLists.length; i++) {
+        for (int i = 0; i < max; i++) {
             ArrayList<Point> limits = limitLists[i];
             if (limits == null)
                 continue;
@@ -55,7 +59,7 @@ public class Solution {
     }
 
 
-    static public int stream(int i, int j, int height) {
+    public int stream(int i, int j, int height) {
         if (i < 0 || j < 0 || i >= iM || j >= jM)
             return 0;
         if (mapping[i][j] == 0)
